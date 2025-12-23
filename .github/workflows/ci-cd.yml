@@ -1,4 +1,3 @@
-
 name: FixWhere.ai CI/CD
 
 on:
@@ -10,9 +9,9 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  # כאן אנחנו מגדירים שמות באותיות קטנות בלבד באופן ידני כדי למנוע תקלות
-  IMAGE_NAME_BACKEND: fixwhere-ai-backend
-  IMAGE_NAME_EXTENSION: fixwhere-ai-extension
+  # הגדרת שמות קבועים ב-lowercase
+  IMAGE_BACKEND: ghcr.io/avigailrothman/fixwhere-backend:latest
+  IMAGE_EXTENSION: ghcr.io/avigailrothman/fixwhere-extension:latest
 
 jobs:
   test-backend:
@@ -30,7 +29,6 @@ jobs:
       - name: Run tests
         run: |
           cd backend
-          # אם אין עדיין טסטים, הפקודה לא תכשיל את ה-build
           pytest || echo "No tests to run"
 
   build-and-push:
@@ -47,7 +45,6 @@ jobs:
         uses: docker/login-action@v3
         with:
           registry: ${{ env.REGISTRY }}
-          # המרה ידנית של שם המשתמש לאותיות קטנות לצורך ה-Login
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
@@ -56,16 +53,11 @@ jobs:
         with:
           context: ./backend
           push: true
-          # כאן אנחנו בונים את הנתיב באותיות קטנות (נחליף את שם המשתמש בגרסה קטנה)
-          tags: ${{ env.REGISTRY }}/${{ github.repository_owner }}-backend:latest
-          # שים לב: ב-tags השתמשתי בפורמט פשוט יותר שיעבוד
-        env:
-          # מכריח את הכל להיות lowercase
-          DOCKER_METADATA_ANNOTATIONS_LEVELS: manifest
+          tags: ${{ env.IMAGE_BACKEND }}
 
       - name: Build and push Extension
         uses: docker/build-push-action@v5
         with:
           context: ./extension
           push: true
-          tags: ${{ env.REGISTRY }}/${{ github.repository_owner }}-extension:latest
+          tags: ${{ env.IMAGE_EXTENSION }}
