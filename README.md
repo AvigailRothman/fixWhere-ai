@@ -1,5 +1,5 @@
 FixWhere.ai 🚀
-Smart Debugging Companion Powered by Gemini 3 Flash
+Smart Debugging Companion 
 
 FixWhere.ai is a high-performance developer tool that intercepts React/JS errors, analyzes them using the Gemini 3 Flash model, and provides instant code fixes directly in your browser.
 
