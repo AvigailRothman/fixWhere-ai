@@ -1,34 +1,23 @@
- # שלב 1: בניית הקבצים (Build stage)
-# FROM node:20-slim AS builder
-# WORKDIR /app
-# COPY . .
-# # אם יש לך npm install/build, זה המקום. אם לא, פשוט ממשיכים.
-
-# # שלב 2: הגשת הקבצים (Runtime stage)
-# FROM nginx:alpine
-# # מעתיקים את קבצי התוסף לתיקייה שהדוקר מגיש
-# COPY --from=builder /app /usr/share/nginx/html
-# EXPOSE 80
-# שלב 1: בניית הקוד (Build Stage)
+# שלב 1: בניית הקוד
 FROM node:20-alpine AS build-stage
 
 WORKDIR /app
 
-# העתקת קבצי הגדרות והתקנת חבילות
-COPY package*.json ./
-RUN npm install
+# הגדרות לעקיפת בעיות חיבור (מתאים לנטפרי/חסימות)
+RUN npm config set strict-ssl false
 
-# העתקת שאר קוד המקור ובניית התוסף
+# העתקת קבצי הגדרות
+COPY package*.json ./
+
+# התקנה עם דגל שמתעלם מבעיות תעודה
+RUN npm install --no-audit --no-fund
+
+# העתקת שאר הקוד ובנייה
 COPY . .
 RUN npm run build
 
-# שלב 2: הגשת הקבצים (Runtime stage)
+# שלב 2: הגשת הקבצים
 FROM nginx:alpine
-
-# העתקת הקבצים המוכנים בלבד (תיקיית dist) לתיקייה שה-Nginx מגיש
-# שימי לב: אם בתוסף שלך תיקיית הפלט היא 'build' ולא 'dist', שמי לב לשנות את הנתיב למטה
 COPY --from=build-stage /app/dist /usr/share/nginx/html
-
 EXPOSE 80
-
 CMD ["nginx", "-g", "daemon off;"]
