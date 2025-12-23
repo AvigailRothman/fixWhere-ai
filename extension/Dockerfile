@@ -1,18 +1,13 @@
-# שלב 1: בניית הקוד
+# שלב 1: בניית הקבצים
 FROM node:20-alpine AS build-stage
-
 WORKDIR /app
 
-# הגדרות לעקיפת בעיות חיבור (מתאים לנטפרי/חסימות)
+# ביטול בדיקת SSL עבור npm (פותר שגיאה 254)
 RUN npm config set strict-ssl false
 
-# העתקת קבצי הגדרות
 COPY package*.json ./
-
-# התקנה עם דגל שמתעלם מבעיות תעודה
 RUN npm install --no-audit --no-fund
 
-# העתקת שאר הקוד ובנייה
 COPY . .
 RUN npm run build
 
