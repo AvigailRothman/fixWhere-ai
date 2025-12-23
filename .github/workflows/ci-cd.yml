@@ -99,7 +99,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      # בניית ה-Backend כרגיל
+      # בניית Backend (עובד כרגיל)
       - name: Build and Push Backend
         uses: docker/build-push-action@v5
         with:
@@ -107,35 +107,24 @@ jobs:
           push: true
           tags: ghcr.io/avigailrothman/fixwhere-backend:latest
 
-      # --- כאן מגיע התיקון ל-Extension ---
-# --- תיקון סופי ל-Extension עם הגדרות סביבה מחמירות ---
+      # --- בניית ה-Extension עם עקיפת נטפרי מלאה ---
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
 
-      - name: Build Extension Assets (Outside Docker)
+      - name: Build Extension Assets
         env:
-          NODE_TLS_REJECT_UNAUTHORIZED: 0  # הגדרה גלובלית לכל ה-Step
+          NODE_TLS_REJECT_UNAUTHORIZED: 0
         run: |
           cd extension
+          # הגדרות npm להתעלמות מוחלטת מ-SSL
           npm config set strict-ssl false
           npm config set registry http://registry.npmjs.org/
           
-          # התקנה ובנייה
+          # ניקוי זיכרון והתקנה
           npm install --no-audit --no-fund --legacy-peer-deps
           npm run build
-      # - name: Setup Node.js
-      #   uses: actions/setup-node@v4
-      #   with:
-      #     node-version: '20'
-
-      # - name: Build Extension Assets (Outside Docker)
-      #   run: |
-      #     cd extension
-      #     npm config set strict-ssl false
-      #     npm install --no-audit --no-fund
-      #     npm run build || echo "Build failed but continuing to check files"
 
       - name: Build and Push Extension Image
         uses: docker/build-push-action@v5
