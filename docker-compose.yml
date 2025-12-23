@@ -1,0 +1,18 @@
+services:
+  backend:
+    build: ./backend
+    container_name: ai-debug-backend
+    ports:
+      - "4000:4000"
+    env_file:
+      - ./backend/.env
+    volumes:
+      - ./backend/app/errors.db:/app/app/errors.db
+    restart: always
+
+  frontend:
+    build: ./extension
+    container_name: ai-debug-frontend
+    ports:
+      - "8080:80" # תוכלי לראות את קבצי התוסף בכתובת localhost:8080
+    restart: always

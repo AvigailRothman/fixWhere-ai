@@ -1,0 +1,19 @@
+# Secrets
+.env
+.env.local
+backend/.env          <-- זה יוודא שספציפית הקובץ בבקאנד לא עולה
+backend/*.env
+
+# Python & System
+__pycache__/
+*.py[cod]
+venv/
+.venv/
+.pytest_cache/
+
+# Databases
+backend/app/errors.db
+*.sqlite3
+
+# Docker
+.dockerignore

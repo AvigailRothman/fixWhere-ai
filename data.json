@@ -1,0 +1,15 @@
+{
+    "source": "react.error-boundary",
+    "kind": "react-runtime-error",
+    "message": "Uncaught TypeError: Cannot read properties of undefined (reading 'name')",
+    "stack": "TypeError: Cannot read properties of undefined (reading 'name')\n at UserProfile (http://localhost:5173/src/components/UserProfile.jsx:15:24)",
+    "componentStack": " in UserProfile (at App.jsx:10)\n in App",
+    "file": "http://localhost:5173/src/components/UserProfile.jsx",
+    "line": 15,
+    "column": 24,
+    "snippet": "13: const { user } = props;\n14: return (\n15: <div>{user.name}</div>\n16: );",
+    "pageHtml": "<!doctype html><html><body><div id='root'></div></body></html>",
+    "fileContent": "import React from 'react';\n\nconst UserProfile = (props) => {\n const { user } = props;\n return (\n <div>{user.name}</div>\n );\n};\n\nexport default UserProfile;",
+    "url": "http://localhost:5173/",
+    "timestamp": 1766313569880
+}

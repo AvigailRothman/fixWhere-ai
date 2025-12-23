@@ -1,0 +1,29 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <style>
+    body { font-family: system-ui, Arial; padding: 12px; background: #fafafa; }
+    .card { background: white; border: 1px solid #e7e7e7; border-radius: 12px; padding: 12px; margin-bottom: 12px; box-shadow: 0 1px 3px rgba(0,0,0,.04); }
+    .title { font-weight: 700; margin-bottom: 6px; }
+    .meta { font-size: 12px; opacity: .75; margin-bottom: 10px; }
+    .msg { white-space: pre-wrap; margin: 8px 0 10px; }
+    .row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+    button { border: 0; padding: 8px 10px; border-radius: 10px; cursor: pointer; font-weight: 600; }
+    .btn { background: #ececec; }
+    .btn:disabled { opacity: .5; cursor: not-allowed; }
+    .solve { background: #1f6feb; color: white; }
+    .solve:hover { filter: brightness(.95); }
+    .pill { display:inline-block; font-size: 12px; padding: 2px 8px; border-radius: 999px; background:#f1f5ff; color:#1f6feb; font-weight:700; }
+    .details { margin-top: 10px; }
+    pre { white-space: pre-wrap; background: #f6f6f6; padding: 10px; border-radius: 10px; overflow:auto; }
+    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .colTitle { font-size: 12px; opacity: .8; font-weight: 700; margin-bottom: 6px; }
+    .box { border: 1px solid #e7e7e7; border-radius: 10px; padding: 10px; background: #fff; }
+  </style>
+</head>
+<body>
+  <div id="log-container"></div>
+  <script src="panel.js"></script>
+</body>
+</html>

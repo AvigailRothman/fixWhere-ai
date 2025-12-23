@@ -1,0 +1,15 @@
+{
+  "source": "console",
+  "kind": "runtime-error",
+  "message": "Logic Bug: Counter is stuck at 1 and doesn't increment further, even though the interval is running.",
+  "stack": null,
+  "componentStack": " in StaleCounter (at App.jsx:5)",
+  "file": "http://localhost:5173/src/components/StaleCounter.jsx",
+  "line": 8,
+  "column": 5,
+  "snippet": "6:   useEffect(() => {\n7:     const id = setInterval(() => {\n8:       setCount(count + 1);\n9:     }, 1000);\n10:    return () => clearInterval(id);\n11:  }, []);",
+  "pageHtml": "<!doctype html><html><body><div id='root'></div></body></html>",
+  "fileContent": "import React, { useState, useEffect } from 'react';\n\nconst StaleCounter = () => {\n  const [count, setCount] = useState(0);\n\n  useEffect(() => {\n    const id = setInterval(() => {\n      // This 'count' variable is captured from the first render (0)\n      // So it always does setCount(0 + 1)\n      setCount(count + 1);\n    }, 1000);\n\n    return () => clearInterval(id);\n  }, []); // Empty dependency array means this runs only once\n\n  return <div>Timer: {count}</div>;\n};\n\nexport default StaleCounter;",
+  "url": "http://localhost:5173/",
+  "timestamp": 1766316000000
+}

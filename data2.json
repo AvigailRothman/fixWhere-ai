@@ -1,0 +1,15 @@
+{
+  "source": "console",
+  "kind": "console-error",
+  "message": "Warning: Maximum update depth exceeded. This can happen when a component calls setState inside useEffect, but useEffect either doesn't have a dependency array, or one of the dependencies changes on every render.",
+  "stack": "at dispatchSetState (http://localhost:5173/node_modules/.vite/deps/react.js:1245:30)\n at http://localhost:5173/src/components/Counter.jsx:9:5",
+  "componentStack": " in Counter (at App.jsx:5)",
+  "file": "http://localhost:5173/src/components/Counter.jsx",
+  "line": 9,
+  "column": 5,
+  "snippet": "7:   useEffect(() => {\n8:     console.log('Effect running');\n9:     setCount(count + 1);\n10:  }, [count]);",
+  "pageHtml": "<!doctype html><html><body><div id='root'></div></body></html>",
+  "fileContent": "import React, { useState, useEffect } from 'react';\n\nconst Counter = () => {\n  const [count, setCount] = useState(0);\n\n  useEffect(() => {\n    // Logic error: updating the dependency causes infinite re-renders\n    console.log('Effect running');\n    setCount(count + 1);\n  }, [count]);\n\n  return <div>Count: {count}</div>;\n};\n\nexport default Counter;",
+  "url": "http://localhost:5173/",
+  "timestamp": 1766315000000
+}
