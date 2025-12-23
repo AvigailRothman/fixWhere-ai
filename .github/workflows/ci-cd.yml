@@ -1,17 +1,11 @@
-name: FixWhere.ai CI/CD
+name: FixWhere.ai CI/CD Pipeline
 
 on:
   push:
     branches: [ main ]
-  pull_request: 
+  pull_request:
     branches: [ main ]
   workflow_dispatch:
-
-env:
-  REGISTRY: ghcr.io
-  # הגדרת שמות קבועים ב-lowercase
-  IMAGE_BACKEND: ghcr.io/avigailrothman/fixwhere-backend:latest
-  IMAGE_EXTENSION: ghcr.io/avigailrothman/fixwhere-extension:latest
 
 jobs:
   test-backend:
@@ -29,7 +23,7 @@ jobs:
       - name: Run tests
         run: |
           cd backend
-          pytest || echo "No tests to run"
+          pytest || echo "No tests found"
 
   build-and-push:
     needs: test-backend
@@ -37,27 +31,28 @@ jobs:
     permissions:
       contents: read
       packages: write
-
     steps:
       - uses: actions/checkout@v4
-
-      - name: Log in to the Container registry
+      
+      - name: Log in to GitHub Container Registry
         uses: docker/login-action@v3
         with:
-          registry: ${{ env.REGISTRY }}
+          registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and push Backend
+      - name: Build and Push Backend
         uses: docker/build-push-action@v5
         with:
           context: ./backend
           push: true
-          tags: ${{ env.IMAGE_BACKEND }}
+          # שימי לב: הכל באותיות קטנות כאן למטה
+          tags: ghcr.io/avigailrothman/fixwhere-backend:latest
 
-      - name: Build and push Extension
+      - name: Build and Push Extension
         uses: docker/build-push-action@v5
         with:
           context: ./extension
           push: true
-          tags: ${{ env.IMAGE_EXTENSION }}
+          # שימי לב: הכל באותיות קטנות כאן למטה
+          tags: ghcr.io/avigailrothman/fixwhere-extension:latest
