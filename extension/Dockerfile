@@ -4,7 +4,7 @@ FROM nginx:alpine
 COPY . /usr/share/nginx/html
 
 # הסרת ה-Dockerfile עצמו מהשרת (אופציונלי, לניקיון)
-RUN rm /usr/share/nginx/html/Dockerfile
-
+# RUN rm /usr/share/nginx/html/Dockerfile
+RUN rm -f /usr/share/nginx/html/Dockerfile
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
