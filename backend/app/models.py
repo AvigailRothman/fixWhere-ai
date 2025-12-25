@@ -15,3 +15,15 @@ class ErrorPayload(BaseModel):
     fileContent: Optional[str] = None
     url: Optional[str] = None
     timestamp: Optional[int] = None
+    # models.py
+from pydantic import BaseModel
+from typing import List, Optional, Dict
+
+class ChatMessage(BaseModel):
+    role: str      # "user" או "assistant"
+    content: str
+
+class ChatRequest(BaseModel):
+    error_id: int              # ה-ID של השגיאה מה-DB
+    history: List[ChatMessage] # כל היסטוריית השיחה עד כה
+    files: Optional[Dict[str, str]] = None # קוד מקור אם חולץ

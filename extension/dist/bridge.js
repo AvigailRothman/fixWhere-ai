@@ -27,3 +27,18 @@ window.addEventListener("DEBUG_CATCHER_EVENT", async (e) => {
     payload: { ...data, timestamp: Date.now() } 
   });
 });
+// // מאזין לשגיאות (הקוד הקיים שלך)
+// window.addEventListener("DEBUG_CATCHER_EVENT", async (e) => {
+//     // ... הקוד הקיים שלך ...
+// });
+
+// פונקציה חדשה: מאזין לבקשות לקריאת קבצים מה-Panel
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+    if (request.action === "READ_FILE") {
+        fetch(request.fileName)
+            .then(res => res.text())
+            .then(content => sendResponse({ content }))
+            .catch(err => sendResponse({ error: err.message }));
+        return true; // שומר על הערוץ פתוח לתגובה אסינכרונית
+    }
+});

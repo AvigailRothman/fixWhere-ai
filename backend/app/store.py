@@ -28,8 +28,9 @@ def init_db():
     conn.commit()
     conn.close()
 
-def save_error(payload: dict):
+def save_error(payload: dict) -> int: # <--- הוספנו -> int כדי להבהיר שזה תמיד מספר
     conn = sqlite3.connect(DB_PATH)
+   
     cursor = conn.cursor()
     cursor.execute("""
         INSERT INTO errors (
@@ -50,9 +51,14 @@ def save_error(payload: dict):
         payload.get("fileContent"),
         payload.get("url"),
         payload.get("timestamp")
-    ))
+    ))                                          
+    last_id = cursor.lastrowid # <--- שורה חדשה: מקבל את ה-ID שנוצר הרגע
     conn.commit()
     conn.close()
+    return last_id
+# app/store.py
+
+
 
 def get_all_errors():
     conn = sqlite3.connect(DB_PATH)
